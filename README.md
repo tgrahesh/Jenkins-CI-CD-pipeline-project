@@ -57,8 +57,11 @@ Before setting up the CI/CD pipeline, ensure you have the following prerequisite
 ## 4. Kubernetes Deployment
 
 4.1 A running Kubernetes cluster using Amazon EKS.
+
 4.2 Kubernetes command-line tool `kubectl` installed and configured.
+
 4.3 Container images of your microservices available in a container registry using amazon ECR.
+
 4.4 Kubernetes YAML files that define the deployment scripts for each microservice.
 
 ## 5. Building Jenkins pipeline
