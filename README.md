@@ -8,74 +8,112 @@ This project provides an outline of the steps to create a CI/CD pipeline using J
 
 Before setting up the CI/CD pipeline, ensure you have the following prerequisites:
 
-- Jenkins server set up and configured.
+- Version control system (e.g., Git) for your microservices code.
+- Jenkins server setup and required plugins to facilitate various integrations for building pipeline like docker,kubernetes, AWS, GIT for executing critical tasks
+- Docker and Kubernetes tools installed on your Jenkins server.
 - A Kubernetes cluster ready for microservices deployment.
 - AWS account and the necessary IAM roles for serverless deployment.
 
 ## Step-by-Step Guide
 
-### 1. Define Your Application Architecture
+### 1. Define Your Microservices Application Architecture
 
-Document your application architecture, including microservices and serverless components. Make a clear plan of how they interact and what needs to be deployed where.
+1. **Frontend Service**
+   - Serves as the user interface for customers to interact with the eCommerce platform.
+2. **User Service**
+   - Responsible for managing user data, authentication, and authorization.
+3. **Inventory Service**
+   - Tracks the quantity of each product in stock.
+4. **Order Service**
+   - Handles order management, including order creation, tracking, and payment processing.
+5. **logistic Service**
+   - Coordinates shipping and provides real-time shipment tracking information to customers.
+6. **Payment Service**
+   - Integrates with payment gateways to process payments for orders.
 
-### 2. Set Up Version Control
+### 2. AWS Infrastructure setup using Terraform
+2.1. create Terraform scripts to define your infrastructure. This may include AWS resources like VPCs, subnets, security groups, EKS clusters, and more. Be sure to manage secrets and sensitive data securely.
 
-Use a version control system (e.g., Git) to manage your application code. Create a repository and commit your code to it.
+2.2. Add a stage to your Jenkins pipeline that uses Terraform to apply your infrastructure as code. This deploys your EKS cluster and related AWS resources.
 
-### 3. Configure Jenkins
+### 3. Serverless Components Development and deployment
 
-Install Jenkins on a dedicated server or cloud instance. Install the required plugins, including AWS and Kubernetes plugins. Set up Jenkins credentials for AWS and Kubernetes.
+3.1. **AWS Lambda Functions**: Create individual AWS Lambda functions for each microservice. Develop the business logic and set up event triggers for the functions.
 
-### 4. Implement Automated Testing
+3.2. **Deployment Packages**: Package your Lambda functions and their dependencies into deployment packages. Ensure that they are ready for deployment.
 
-Create automated tests for your application components, including unit tests, integration tests, and end-to-end tests. Configure Jenkins to run tests as part of the CI/CD pipeline.
+3.3. **Serverless Framework**: If you're using the Serverless Framework, define your serverless components in the serverless.yml file.
 
-### 5. Kubernetes Deployment
+3.4. **Deploy Lambda Functions**: Deploy your Lambda functions to AWS using the Serverless Framework or the AWS Management Console.
 
-Write Kubernetes YAML files for deploying your microservices. Create deployment scripts or Helm charts for each microservice. Configure Jenkins jobs to deploy microservices to the Kubernetes cluster.
+3.5. **API Gateway (if required)**: Create API endpoints for your Lambda functions to expose them as RESTful APIs.
 
-### 6. Develop Serverless Functions
+3.6. **Event Trigger**: Configure Lambda functions to interact with your Kubernetes cluster or microservices through event triggers or API calls.
 
-Create serverless functions using AWS Lambda. Implement and configure the functions, along with any necessary triggers (e.g., API Gateway).
+3.7. **IAM Roles and Policies**: Implement secure IAM roles and policies for Lambda functions and Kubernetes pods.
 
-### 7. Serverless Deployment
+3.8. **Network Policies**: Define network policies to control communication between Lambda functions and Kubernetes pods.
 
-Use a serverless framework (e.g., Serverless Framework) to package and deploy your serverless functions. Configure Jenkins jobs to deploy serverless functions.
+### 4. Kubernetes Deployment
 
-### 8. Continuous Integration
+## A running Kubernetes cluster using Amazon EKS.
+## Kubernetes command-line tool `kubectl` installed and configured.
+## Container images of your microservices available in a container registry using amazon ECR.
+## Kubernetes YAML files that define the deployment scripts for each microservice.
 
-Configure Jenkins for continuous integration. It should build, test, and package your application on code commits. Ensure that all tests pass before proceeding.
+### 5. Building Jenkins pipeline
 
-### 9. Implement Staging Environment
+## Step 1: Configure Jenkins
+1.1. Set up Jenkins on your server, either by installing it on an EC2 instance or using a containerized version.
 
-Set up a staging environment for testing new releases. Configure Jenkins jobs to automatically deploy new microservices and serverless functions to the staging environment after successful builds and tests.
+1.2. Install required Jenkins plugins for Docker, Kubernetes, and Git integration.
 
-### 10. Staging Testing
+1.3. Configure Jenkins credentials for AWS and your Kubernetes cluster.
 
-Conduct comprehensive testing in the staging environment, including integration testing and user acceptance testing.
+1.4. Create a new Jenkins pipeline project or configure an existing one.
 
-### 11. Production Deployment
+## Step 2: Define Jenkins Pipeline
 
-Configure Jenkins to automatically deploy to the production environment after successful testing in staging. Implement a safe deployment strategy (e.g., blue-green or canary) to minimize production impact.
+2.1. Define a Jenkinsfile or pipeline script that describes the steps to build, test, and deploy your microservices.
 
-### 12. Continuous Monitoring
+2.2. Use Jenkins declarative pipeline or scripted pipeline syntax based on your preference.
 
-Set up monitoring and logging for your microservices and serverless functions. Implement alerting for system and application metrics.
+## Step 3: Configure Webhooks
 
-### 13. Security
+3.1. Set up webhooks in your version control system to trigger the Jenkins pipeline on code commits.
 
-Implement security best practices, including code scanning, access control, and secure handling of secrets.
+3.2. Ensure that your microservices repositories notify Jenkins when changes are pushed.
 
-### 14. Scalability
+## Step 4: Implement Microservices Deployment
 
-Plan for scalability. Ensure your infrastructure can handle growing workloads.
+4.1. Define Kubernetes deployment configurations (YAML files) for each microservice.
 
-### 15. Documentation
+4.2. Use Kubernetes tools (e.g., kubectl) within your Jenkins pipeline to apply these configurations to your cluster.
 
-Create comprehensive documentation for your CI/CD pipeline, including setup, configurations, and maintenance procedures.
+## Step 5: Set Up Testing
 
-### 16. Backup and Disaster Recovery
+5.1. Configure unit tests, integration tests, and any other required tests for your microservices.
 
-Implement backup and disaster recovery procedures to ensure data and application integrity in case of failures.
+5.2. Integrate testing into your Jenkins pipeline.
+
+## Step 6: Build and Push Docker Images
+
+6.1. Build Docker images for your microservices as part of your Jenkins pipeline.
+
+6.2. Push the Docker images to a container registry (e.g., Amazon ECR).
+
+## Step 7: Deploy Microservices to Kubernetes
+
+7.1. Use kubectl or Kubernetes operators to deploy your microservices to your Kubernetes cluster.
+
+7.2. Ensure you handle secrets and configurations securely.
+
+## Step 8: Continuous Integration
+
+8.1. Configure Jenkins to continuously build and test your microservices on code commits.
+
+8.2. Run your entire pipeline whenever changes are pushed.
+
+
 
 
