@@ -4,5 +4,4 @@ ADD vhost.conf /etc/nginx/conf.d/default.conf
 
 COPY ./dist /var/www
 
-RUN npm install
 
