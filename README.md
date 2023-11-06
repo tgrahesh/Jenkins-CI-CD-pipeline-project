@@ -17,19 +17,7 @@ Before setting up the CI/CD pipeline, ensure you have the following prerequisite
 ## Step-by-Step Guide
 
 ### 1. Define Your Microservices Application Architecture
-
-1. **Frontend Service**
-   - Serves as the user interface for customers to interact with the eCommerce platform.
-2. **User Service**
-   - Responsible for managing user data, authentication, and authorization.
-3. **Inventory Service**
-   - Tracks the quantity of each product in stock.
-4. **Order Service**
-   - Handles order management, including order creation, tracking, and payment processing.
-5. **logistic Service**
-   - Coordinates shipping and provides real-time shipment tracking information to customers.
-6. **Payment Service**
-   - Integrates with payment gateways to process payments for orders.
+![image](https://github.com/tgrahesh/Jenkins-CI-CD-pipeline-project/assets/115626638/2265216c-98e6-4b9a-a64e-eede6c6ddfcf)
 
 ## 2. AWS Infrastructure setup using Terraform
 2.1. create Terraform scripts to define your infrastructure. This may include AWS resources like VPCs, subnets, security groups, EKS clusters, and more. Be sure to manage secrets and sensitive data securely.
