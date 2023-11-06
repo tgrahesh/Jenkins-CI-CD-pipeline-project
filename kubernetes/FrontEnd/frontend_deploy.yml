@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app-deploy
+  labels:
+    name: frontend-app-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: frontend-app-pod
+  template:
+    metadata:
+      name: frontend-app-pod
+      labels:
+        name: frontend-app-pod
+    spec:
+      containers:
+        - name: frontend-app
+          resources:
+          image: grahesht/jenkins_images:v1
+          ports:
+            - containerPort: 80
