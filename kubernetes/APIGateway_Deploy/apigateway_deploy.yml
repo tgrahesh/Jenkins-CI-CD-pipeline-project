@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-app-deploy
+  labels:
+    name: apigateway-app-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: apigateway-app-pod
+  template:
+    metadata:
+      name: apigateway-app-pod
+      labels:
+        name: apigateway-app-pod
+    spec:
+      containers:
+        - name: apigateway-app
+          resources:
+          image: grahesht/jenkins_images:apigateway_image
+          env:
+            - name: QUOTES_API
+              value: "http://quotes-service:5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway-app-service
+  labels:
+    name: apigateway-app-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  selector:
+    name: apigateway-app-pod
+    

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoteservice-app-deploy
+  labels:
+    name: quoteservice-app-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: quoteservice-app-pod
+  template:
+    metadata:
+      name: quoteservice-app-pod
+      labels:
+        name: quoteservice-app-pod
+    spec:
+      containers:
+        - name: quoteservice-app
+          resources:
+          image: grahesht/jenkins_images:quoteservice
+          ports:
+            - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: quoteservice-app-service
+  labels:
+    name: quoteservice-app-service
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  selector:
+    name: quoteservice-app-pod
+    
