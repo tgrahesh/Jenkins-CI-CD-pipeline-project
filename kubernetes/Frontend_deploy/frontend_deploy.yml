@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-app-deploy
+  namespace: eks-getquote-app
   labels:
     name: frontend-app-deploy
 spec:
@@ -16,9 +17,12 @@ spec:
         name: frontend-app-pod
     spec:
       containers:
-        - name: frontend-app
+        - name: frontend-app-container
           resources:
           image: grahesht/jenkins_images:v1
+          env:
+          - name: API_GATEWAY
+            value: http://localhost
           ports:
             - containerPort: 80
 ---
@@ -29,10 +33,9 @@ metadata:
   labels:
     name: frontend-app-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30001
   selector:
-    name: frontend-app-pod
+    name: frontend-app-deploy

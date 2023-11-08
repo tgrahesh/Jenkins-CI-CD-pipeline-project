@@ -21,9 +21,9 @@ spec:
           image: grahesht/jenkins_images:apigateway_image
           ports:
             - containerPort: 3000
-          env:
-            - name: QUOTES_API
-              value: "http://quotes-service:5000"
+          envFrom:
+          - configMapRef:
+              name: api-gateway-config
 ---
 apiVersion: v1
 kind: Service
