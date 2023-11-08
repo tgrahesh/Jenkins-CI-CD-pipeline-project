@@ -20,7 +20,7 @@ spec:
           resources:
           image: grahesht/jenkins_images:quoteservice
           ports:
-            - containerPort: 3000
+            - containerPort: 5000
 
 ---
 

@@ -19,6 +19,8 @@ spec:
         - name: apigateway-app
           resources:
           image: grahesht/jenkins_images:apigateway_image
+          ports:
+            - containerPort: 3000
           env:
             - name: QUOTES_API
               value: "http://quotes-service:5000"
